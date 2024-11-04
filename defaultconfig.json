@@ -5,9 +5,9 @@
   "BLOG_IMAGES_LOCATION": "http://127.0.0.1:3000/usersdata/blog_images/",
   "BLOG_VIDEO_LOCATION": "http://127.0.0.1:3000/usersdata/blog_videos/",
   "JWT_SECRET": "abd5c70119247e764e",
-  "DB_HOST": "192.168.12.88",
+  "DB_HOST": "192.168.69.242",
   "DB_USER": "test",
   "DB_PASSWORD": "test",
-  "DB_DATABASE": "monify",
+  "DB_DATABASE": "email-service",
   "SERVER_PORT": 3000
 }
