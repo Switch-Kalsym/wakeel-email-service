@@ -1,0 +1,112 @@
+| login | CREATE TABLE `login` (
+  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `msisdn` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `otp` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `creationtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `otpstatus` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `lastotpupdatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci |
+
+
+| jwt_token | CREATE TABLE `jwt_token` (
+  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `msisdn` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `token` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `identifierColumn` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci |
+
+
+| device_information | CREATE TABLE `device_information` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `msisdn` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `device_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `fcm_token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci |
+
+| default_categories | CREATE TABLE `default_categories` (
+  `id` int NOT NULL,
+  `category_name` varchar(255) NOT NULL,
+  `type` enum('income','expense') NOT NULL,
+  `group` varchar(255) DEFAULT 'default',
+  `icon_id` int DEFAULT NULL,
+  `hidden` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
+| records | CREATE TABLE `records` (
+  `record_id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) DEFAULT NULL,
+  `msisdn` varchar(255) DEFAULT NULL,
+  `type` enum('income','expense') NOT NULL,
+  `note` text,
+  `amount` decimal(10,2) NOT NULL,
+  `date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `month` tinyint DEFAULT NULL,
+  `year` int DEFAULT NULL,
+  `category_id` int DEFAULT NULL,
+  PRIMARY KEY (`record_id`),
+  KEY `email` (`email`),
+  KEY `msisdn` (`msisdn`),
+  KEY `date` (`date`),
+  KEY `month` (`month`),
+  KEY `year` (`year`),
+  KEY `fk_category_id` (`category_id`),
+  CONSTRAINT `fk_category_id_records` FOREIGN KEY (`category_id`) REFERENCES `user_categories` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
+
+| budget | CREATE TABLE `budget` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `month` int NOT NULL,
+  `year` int NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `msisdn` varchar(255) DEFAULT NULL,
+  `category_id` int DEFAULT NULL,
+  `isMonthly` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_category_id` (`category_id`),
+  CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `user_categories` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
+
+| user_categories | CREATE TABLE `user_categories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) DEFAULT NULL,
+  `msisdn` varchar(255) DEFAULT NULL,
+  `category_name` varchar(255) NOT NULL,
+  `type` enum('income','expense') NOT NULL,
+  `group` varchar(255) DEFAULT 'Custom',
+  `icon_id` int DEFAULT NULL,
+  `hidden` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
+
+
+| user_profile | CREATE TABLE `user_profile` (
+  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `msisdn` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `profile_picture` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  UNIQUE KEY `unique_email` (`email`),
+  UNIQUE KEY `unique_msisdn` (`msisdn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci |
+
+
+CREATE TABLE blogs (
+  blog_id INT(11) NOT NULL AUTO_INCREMENT,
+  blogType INT(11) NOT NULL,
+  blog_link VARCHAR(255) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  subtitle VARCHAR(255) NOT NULL,
+  category VARCHAR(255) NOT NULL,
+  sub_category VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  thumbUrl VARCHAR(255) NOT NULL,
+  videoUrl VARCHAR(255) NOT NULL,
+  PRIMARY KEY (blog_id)
+);
